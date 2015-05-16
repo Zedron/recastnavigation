@@ -8,6 +8,7 @@
 *.pdb
 *.so
 *.idb
+*.opensdf
 
 ## Linux exes have no extension
 RecastDemo/Bin/RecastDemo

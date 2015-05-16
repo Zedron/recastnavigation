@@ -212,6 +212,11 @@ bool Sample::handleBuild()
 	return true;
 }
 
+bool Sample::handleLoad()
+{
+    return true;
+}
+
 void Sample::handleUpdate(const float dt)
 {
 	if (m_tool)

@@ -301,14 +301,14 @@ int main(int /*argc*/, char** /*argv*/)
 						if (mouseOverMenu)
 							mscroll--;
 						else
-							scrollZoom -= 1.0f;
+							scrollZoom -= 10.0f;
 					}
 					else if (event.button.button == SDL_BUTTON_WHEELDOWN)
 					{
 						if (mouseOverMenu)
 							mscroll++;
 						else
-							scrollZoom += 1.0f;
+							scrollZoom += 10.0f;
 					}
 					break;
 					
@@ -476,7 +476,7 @@ int main(int /*argc*/, char** /*argv*/)
 		
 		float keybSpeed = 22.0f;
 		if (SDL_GetModState() & KMOD_SHIFT)
-			keybSpeed *= 4.0f;
+			keybSpeed *= 20.0f;
 		
 		float movex = (moveD - moveA) * keybSpeed * dt;
 		float movey = (moveS - moveW) * keybSpeed * dt;
@@ -602,6 +602,22 @@ int main(int /*argc*/, char** /*argv*/)
 					delete test;
 					test = 0;
 				}
+
+				if (imguiButton("Load mmtile"))
+				{
+					ctx.resetLog();
+					if (!sample->handleLoad())
+					{
+						showLog = true;
+						logScroll = 0;
+					}
+					ctx.dumpLog("Load log %s:", meshName);
+
+					// Clear test.
+					delete test;
+					test = 0;
+				}
+
 
 				imguiSeparator();
 			}

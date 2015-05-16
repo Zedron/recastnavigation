@@ -18,6 +18,10 @@
 
 #ifndef FILELIST_H
 #define FILELIST_H
+#include <list>
+#include <string>
+
+typedef std::list<std::string> FileList;
 
 struct FileList
 {
