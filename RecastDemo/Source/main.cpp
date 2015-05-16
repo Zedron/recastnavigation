@@ -19,6 +19,7 @@
 #include <stdio.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <thread>
 #include "SDL.h"
 #include "SDL_opengl.h"
 #include "imgui.h"
@@ -202,7 +203,7 @@ int main(int /*argc*/, char** /*argv*/)
 						showLevels = false;
 						showSample = false;
 						showTestCases = true;
-						scanDirectory("Tests", ".txt", files);
+						scanDirectory("../Tests", ".txt", files);
 					}
 					else if (event.key.keysym.sym == SDLK_TAB)
 					{
@@ -474,9 +475,9 @@ int main(int /*argc*/, char** /*argv*/)
 		moveA = rcClamp(moveA + dt * 4 * (keystate[SDLK_a] ? 1 : -1), 0.0f, 1.0f);
 		moveD = rcClamp(moveD + dt * 4 * (keystate[SDLK_d] ? 1 : -1), 0.0f, 1.0f);
 		
-		float keybSpeed = 22.0f;
+		float keybSpeed = 100.f;
 		if (SDL_GetModState() & KMOD_SHIFT)
-			keybSpeed *= 20.0f;
+			keybSpeed *= 5.f;
 		
 		float movex = (moveD - moveA) * keybSpeed * dt;
 		float movey = (moveS - moveW) * keybSpeed * dt;
@@ -569,7 +570,7 @@ int main(int /*argc*/, char** /*argv*/)
 					showSample = false;
 					showTestCases = false;
 					showLevels = true;
-					scanDirectory("Meshes", ".obj", files);
+					scanDirectory("../Meshes", ".obj", files);
 				}
 			}
 			if (geom)
@@ -617,7 +618,6 @@ int main(int /*argc*/, char** /*argv*/)
 					delete test;
 					test = 0;
 				}
-
 
 				imguiSeparator();
 			}
@@ -697,20 +697,32 @@ int main(int /*argc*/, char** /*argv*/)
 		// Level selection dialog.
 		if (showLevels)
 		{
+            // size 10 border padding
+            int MAX_HEIGHT = height-10-10 - (showLog ? 200 + 10 : 0);
+            int MIN_HEIGHT = 100;
+            int _height = files.size() * 24 + 35;
+            if (_height > MAX_HEIGHT)
+                _height = MAX_HEIGHT;
+
+            if (_height < MIN_HEIGHT)
+                _height = MIN_HEIGHT;
+
+            unsigned int y = height-_height-10;
+
 			static int levelScroll = 0;
-			if (imguiBeginScrollArea("Choose Level", width-10-250-10-200, height-10-450, 200, 450, &levelScroll))
+			if (imguiBeginScrollArea("Choose Level", width-10-250-10-200, y, 200, _height, &levelScroll))
 				mouseOverMenu = true;
 			
 			int levelToLoad = -1;
-			for (int i = 0; i < files.size; ++i)
+			for (unsigned i = 0; i < files.size(); ++i)
 			{
-				if (imguiItem(files.files[i]))
+				if (imguiItem(files[i].c_str()))
 					levelToLoad = i;
 			}
 			
 			if (levelToLoad != -1)
 			{
-				strncpy(meshName, files.files[levelToLoad], sizeof(meshName));
+				strncpy(meshName, files[levelToLoad].c_str(), sizeof(meshName));
 				meshName[sizeof(meshName)-1] = '\0';
 				showLevels = false;
 				
@@ -718,7 +730,7 @@ int main(int /*argc*/, char** /*argv*/)
 				geom = 0;
 				
 				char path[256];
-				strcpy(path, "Meshes/");
+				strcpy(path, "../Meshes/");
 				strcat(path, meshName);
 				
 				geom = new InputGeom;
@@ -780,9 +792,9 @@ int main(int /*argc*/, char** /*argv*/)
 				mouseOverMenu = true;
 
 			int testToLoad = -1;
-			for (int i = 0; i < files.size; ++i)
+			for (unsigned i = 0; i < files.size(); ++i)
 			{
-				if (imguiItem(files.files[i]))
+				if (imguiItem(files[i].c_str()))
 					testToLoad = i;
 			}
 			
@@ -790,7 +802,7 @@ int main(int /*argc*/, char** /*argv*/)
 			{
 				char path[256];
 				strcpy(path, "Tests/");
-				strcat(path, files.files[testToLoad]);
+				strcat(path, files[testToLoad].c_str());
 				test = new TestCase;
 				if (test)
 				{
@@ -826,7 +838,7 @@ int main(int /*argc*/, char** /*argv*/)
 					delete geom;
 					geom = 0;
 					
-					strcpy(path, "Meshes/");
+					strcpy(path, "../Meshes/");
 					strcat(path, meshName);
 					
 					geom = new InputGeom;
@@ -897,7 +909,13 @@ int main(int /*argc*/, char** /*argv*/)
 		// Log
 		if (showLog && showMenu)
 		{
-			if (imguiBeginScrollArea("Log", 250+20, 10, width - 300 - 250, 200, &logScroll))
+            const int MIN_WIDTH = 100;
+            int _width = width - 300 - (showTools ? 250 : -10) + 10;
+            int x = (showTools ? 250 + 10 : 0) + 10;
+            if (_width < MIN_WIDTH)
+                _width = MIN_WIDTH;
+
+			if (imguiBeginScrollArea("Log", x, 10, _width, 200, &logScroll))
 				mouseOverMenu = true;
 			for (int i = 0; i < ctx.getLogCount(); ++i)
 				imguiLabel(ctx.getLogText(i));
@@ -943,6 +961,8 @@ int main(int /*argc*/, char** /*argv*/)
 		
 		glEnable(GL_DEPTH_TEST);
 		SDL_GL_SwapBuffers();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 	
 	imguiRenderGLDestroy();

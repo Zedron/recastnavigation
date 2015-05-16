@@ -20,42 +20,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <algorithm>
 #ifdef WIN32
 #	include <io.h>
 #else
 #	include <dirent.h>
 #endif
 
-static void fileListAdd(FileList& list, const char* path)
+static void fileListAdd(FileList& list, std::string path)
 {
-	if (list.size >= FileList::MAX_FILES)
-		return;
-	int n = strlen(path);
-	list.files[list.size] = new char[n+1];
-	strcpy(list.files[list.size], path);
-	list.size++;
+    list.push_back(path);
 }
 
 static void fileListClear(FileList& list)
 {
-	for (int i = 0; i < list.size; ++i)
-		delete [] list.files[i];
-	list.size = 0;
-}
-
-FileList::FileList() : size(0)
-{
-	memset(files, 0, sizeof(char*)*MAX_FILES);
-}
-
-FileList::~FileList()
-{
-	fileListClear(*this);
-}
-
-static int cmp(const void* a, const void* b)
-{
-	return strcmp(*(const char**)a, *(const char**)b);
+    list.clear();
 }
 	
 void scanDirectory(const char* path, const char* ext, FileList& list)
@@ -74,7 +53,7 @@ void scanDirectory(const char* path, const char* ext, FileList& list)
 		return;
 	do
 	{
-		fileListAdd(list, dir.name);
+		fileListAdd(list, std::string(dir.name));
 	}
 	while (_findnext(fh, &dir) == 0);
 	_findclose(fh);
@@ -95,6 +74,6 @@ void scanDirectory(const char* path, const char* ext, FileList& list)
 	closedir(dp);
 #endif
 
-	if (list.size > 1)
-		qsort(list.files, list.size, sizeof(char*), cmp);
+	if (!list.empty())
+		std::sort(list.begin(), list.end());
 }

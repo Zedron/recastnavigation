@@ -747,9 +747,9 @@ bool Sample_SoloMesh::handleLoad()
     memcpy(charBuff, &meshFilePath[10], sizeof(char)* 3);
     int mapId = atoi(charBuff);
     // load and init dtNavMesh - read parameters from file
-    int pathLen = strlen("Meshes/%04i.mmap") + 1;
+    int pathLen = strlen("../Meshes/%04i.mmap") + 1;
     char *fileName = new char[pathLen];
-    snprintf(fileName, pathLen, "Meshes/%04i.mmap", mapId);
+    snprintf(fileName, pathLen, "../Meshes/%04i.mmap", mapId);
     FILE* file = fopen(fileName, "rb");
     if (!file)
     {
@@ -781,9 +781,9 @@ bool Sample_SoloMesh::handleLoad()
     int y = atoi(charBuff);
 
     // load this tile :: Meshes/MMMMXXYY.mmtile
-    pathLen = strlen("Meshes/%04i%02i%02i.mmtile") + 1;
+    pathLen = strlen("../Meshes/%04i%02i%02i.mmtile") + 1;
     fileName = new char[pathLen];
-    snprintf(fileName, pathLen, "Meshes/%04i%02i%02i.mmtile", mapId, x, y);
+    snprintf(fileName, pathLen, "../Meshes/%04i%02i%02i.mmtile", mapId, x, y);
 
     file = fopen(fileName, "rb");
     if (!file)

@@ -27,7 +27,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -41,9 +41,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <IntDir>Build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <IntDir>Build\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -54,19 +58,19 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\RecastDemo\Include;$(SolutionDir)\RecastDemo\Contrib;$(SolutionDir)\DebugUtils\Include;$(SolutionDir)\Detour\Include;$(SolutionDir)\DetourCrowd\Include;$(SolutionDir)\DetourTileCache\Include;$(SolutionDir)\Recast\Include;$(SolutionDir)\RecastDemo\Contrib\SDL\include;$(SolutionDir)\RecastDemo\Contrib\fastlz;$(SolutionDir)\RecastDemo\Contrib\SDL\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FloatingPointModel>Fast</FloatingPointModel>
       <SmallerTypeCheck>true</SmallerTypeCheck>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(SolutionDir)\RecastDemo\Contrib\SDL\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)\$(Configuration)\DebugUtils.lib;$(SolutionDir)\$(Configuration)\Detour.lib;$(SolutionDir)\$(Configuration)\DetourCrowd.lib;$(SolutionDir)\$(Configuration)\DetourTileCache.lib;$(SolutionDir)\$(Configuration)\Recast.lib;opengl32.lib;glu32.lib;sdlmain.lib;sdl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)Build\$(Configuration)\DebugUtils.lib;$(SolutionDir)Build\$(Configuration)\Detour.lib;$(SolutionDir)Build\$(Configuration)\DetourCrowd.lib;$(SolutionDir)Build\$(Configuration)\DetourTileCache.lib;$(SolutionDir)Build\$(Configuration)\Recast.lib;opengl32.lib;glu32.lib;sdlmain.lib;sdl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)\RecastDemo\Contrib\SDL\lib\x86\SDL.dll" $(OutDir)
-copy "$(SolutionDir)\RecastDemo\Bin\DroidSans.ttf" $(OutDir)</Command>
+      <Command>copy "$(SolutionDir)RecastDemo\Contrib\SDL\lib\x86\SDL.dll" "$(OutDir)"
+copy "$(SolutionDir)RecastDemo\DroidSans.ttf" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -75,17 +79,23 @@ copy "$(SolutionDir)\RecastDemo\Bin\DroidSans.ttf" $(OutDir)</Command>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\RecastDemo\Include;$(SolutionDir)\RecastDemo\Contrib;$(SolutionDir)\DebugUtils\Include;$(SolutionDir)\Detour\Include;$(SolutionDir)\DetourCrowd\Include;$(SolutionDir)\DetourTileCache\Include;$(SolutionDir)\Recast\Include;$(SolutionDir)\RecastDemo\Contrib\SDL\include;$(SolutionDir)\RecastDemo\Contrib\fastlz;$(SolutionDir)\RecastDemo\Contrib\SDL\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)\RecastDemo\Contrib\SDL\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)\Build\$(Configuration)\DebugUtils.lib;$(SolutionDir)\Build\$(Configuration)\Detour.lib;$(SolutionDir)\Build\$(Configuration)\DetourCrowd.lib;$(SolutionDir)\Build\$(Configuration)\DetourTileCache.lib;$(SolutionDir)\Build\$(Configuration)\Recast.lib;opengl32.lib;glu32.lib;sdlmain.lib;sdl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)RecastDemo\Contrib\SDL\lib\x86\SDL.dll" "$(OutDir)"
+copy "$(SolutionDir)RecastDemo\DroidSans.ttf" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Contrib\fastlz\fastlz.h" />
