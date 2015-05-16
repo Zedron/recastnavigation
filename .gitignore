@@ -12,8 +12,9 @@
 ## Linux exes have no extension
 RecastDemo/Bin/RecastDemo
 
-# Build directory
-RecastDemo/Build
+# Build directories
+Debug
+Release
 
 # Ignore some meshes based on name
 RecastDemo/Bin/Meshes/_*
