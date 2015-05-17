@@ -75,7 +75,7 @@ public:
 	virtual void handleRenderOverlay(double* proj, double* model, int* view);
 	virtual void handleMeshChanged(class InputGeom* geom);
 	virtual bool handleBuild();
-    virtual bool handleLoad();
+	virtual bool handleLoad();
 };
 
 

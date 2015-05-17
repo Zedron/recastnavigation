@@ -214,7 +214,7 @@ bool Sample::handleBuild()
 
 bool Sample::handleLoad()
 {
-    return true;
+	return true;
 }
 
 void Sample::handleUpdate(const float dt)

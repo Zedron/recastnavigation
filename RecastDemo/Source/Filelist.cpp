@@ -29,12 +29,12 @@
 
 static void fileListAdd(FileList& list, std::string path)
 {
-    list.push_back(path);
+	list.push_back(path);
 }
 
 static void fileListClear(FileList& list)
 {
-    list.clear();
+	list.clear();
 }
 	
 void scanDirectory(const char* path, const char* ext, FileList& list)

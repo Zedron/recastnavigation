@@ -353,9 +353,9 @@ static float getTextLength(stbtt_bakedchar *chardata, const char* text)
 static void drawText(float x, float y, const char *text, int align, unsigned int col)
 {
 	if (!g_ftex)
-        return;
-    if (!text)
-        text = "NULL";
+		return;
+	if (!text)
+		text = "NULL";
 	
 	if (align == IMGUI_ALIGN_CENTER)
 		x -= getTextLength(g_cdata, text)/2;

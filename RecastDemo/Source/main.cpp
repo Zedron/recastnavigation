@@ -697,17 +697,17 @@ int main(int /*argc*/, char** /*argv*/)
 		// Level selection dialog.
 		if (showLevels)
 		{
-            // size 10 border padding
-            int MAX_HEIGHT = height-10-10 - (showLog ? 200 + 10 : 0);
-            int MIN_HEIGHT = 100;
-            int _height = files.size() * 24 + 35;
-            if (_height > MAX_HEIGHT)
-                _height = MAX_HEIGHT;
+			// size 10 border padding
+			int MAX_HEIGHT = height-10-10 - (showLog ? 200 + 10 : 0);
+			int MIN_HEIGHT = 100;
+			int _height = files.size() * 24 + 35;
+			if (_height > MAX_HEIGHT)
+				_height = MAX_HEIGHT;
 
-            if (_height < MIN_HEIGHT)
-                _height = MIN_HEIGHT;
+			if (_height < MIN_HEIGHT)
+				_height = MIN_HEIGHT;
 
-            unsigned int y = height-_height-10;
+			unsigned int y = height-_height-10;
 
 			static int levelScroll = 0;
 			if (imguiBeginScrollArea("Choose Level", width-10-250-10-200, y, 200, _height, &levelScroll))
@@ -909,11 +909,11 @@ int main(int /*argc*/, char** /*argv*/)
 		// Log
 		if (showLog && showMenu)
 		{
-            const int MIN_WIDTH = 100;
-            int _width = width - 300 - (showTools ? 250 : -10) + 10;
-            int x = (showTools ? 250 + 10 : 0) + 10;
-            if (_width < MIN_WIDTH)
-                _width = MIN_WIDTH;
+			const int MIN_WIDTH = 100;
+			int _width = width - 300 - (showTools ? 250 : -10) + 10;
+			int x = (showTools ? 250 + 10 : 0) + 10;
+			if (_width < MIN_WIDTH)
+				_width = MIN_WIDTH;
 
 			if (imguiBeginScrollArea("Log", x, 10, _width, 200, &logScroll))
 				mouseOverMenu = true;
@@ -962,7 +962,7 @@ int main(int /*argc*/, char** /*argv*/)
 		glEnable(GL_DEPTH_TEST);
 		SDL_GL_SwapBuffers();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 	
 	imguiRenderGLDestroy();
